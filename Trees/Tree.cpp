@@ -1,8 +1,8 @@
-//#include"../Queue/Queue.h"
 #include "Tree.h"
 #include <iostream>
 #include <queue>
-#include<memory>
+#include <stack>
+#include <memory>
 
 void Tree::createTree()
 {
@@ -95,6 +95,26 @@ void Tree::levelOrder(Node* p)
       if (p->right_child) {
          std::cout << root->right_child->data << "   ";
          Q.emplace(p->right_child);
+      }
+   }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ! Using while loop and stack to iterate the binary tree by pre-order
+// ! [Input] : Node p is at the root node of the tree
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void Tree::iterativePreOrder(Node* p)
+{
+   std::stack<Node*> stk;
+   while (!stk.empty() || p != nullptr) {
+      if (p != nullptr) {
+         std::cout << p->data << "   ";
+         stk.emplace(p);
+         p = p->left_child;
+      }
+      else {
+         p = stk.top(); stk.pop();
+         p = p->right_child;
       }
    }
 }

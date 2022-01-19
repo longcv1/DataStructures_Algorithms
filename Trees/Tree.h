@@ -23,6 +23,8 @@ public:
    int height(Node*);
    void level_Order() { levelOrder(root); };
    void levelOrder(Node*);
+   void iterativePreOrder(Node*);
+   void iterative_pre_order() { iterativePreOrder(root); };
 };
 
 

@@ -8,17 +8,20 @@ int main()
 
    std::cout << "\n\n";
 
-   /*std::cout << "\nPre-order:\n";
+   std::cout << "\nRecursion Pre-order:\n";
    bt.pre_Order();
 
-   std::cout << "\nIn-order:\n";
+   std::cout << "\nRecursion In-order:\n";
    bt.in_Order();
 
-   std::cout << "\nPost-order:\n";
-   bt.post_Order();*/
+   std::cout << "\nRecursion Post-order:\n";
+   bt.post_Order();
 
-   std::cout << "\nPre-Order:\n";
+   std::cout << "\nLevel-Order:\n";
    bt.level_Order();
+
+   std::cout << "\nIterative Pre-order:\n";
+   bt.iterative_pre_order();
 
    return 0;
 }
