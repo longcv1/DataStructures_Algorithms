@@ -64,6 +64,42 @@ void CircularLinkedList::insert(int value, unsigned int pos)
    }
 }
 
+int CircularLinkedList::remove(unsigned int pos)
+{
+   int value{ -1 };
+   if (pos < 0 || pos > getSize()) {
+      std::cout << "Delete at invalid position..\n";
+      return -1;
+   }
+
+   if (pos - 1 == 0) {
+      //Delete at first position
+      auto p = head; auto q = head;
+      do {
+         p = p->next;
+      } while (p->next != head);
+      head = q->next;
+      value = q->data;
+      delete q;
+      p->next = head;
+      size--;
+   }
+   else{
+      //Delete at last position
+      auto p = head; auto q = p;
+      for (unsigned int i = 0; i < pos - 1; i++) {
+         q = p;
+         p = p->next;
+      }
+      q->next = p->next;
+      value = p->data;
+      delete p;
+      size--;
+   }
+
+   return value;
+}
+
 bool CircularLinkedList::isListEmpty() const
 {
    if (head == nullptr) return true;
@@ -89,6 +125,12 @@ int main()
    cll->insert(0, 0);
    cll->insert(15, 3);
    std::cout << "\nDisplay List:\n";
+   cll->display();
+
+   std::cout << "\nAfter deleting:\n";
+   cll->remove(1);
+   cll->remove(6);
+   cll->remove(3);
    cll->display();
    return 0;
 }

@@ -4,7 +4,7 @@
 struct Node {
    int data;
    Node* next;
-   Node() {};
+   Node() = default;
    Node(int value) :data{ value }, next{ nullptr }{};
 };
 
@@ -17,9 +17,10 @@ public:
    CircularLinkedList() :size{0}, head{ nullptr } {};
    void display();
    void insert(int value, unsigned int pos);
-   void remove(unsigned int pos);
+   int remove(unsigned int pos);
    bool isListEmpty() const;
    bool isListFull() const;
+   unsigned int getSize() const { return size; }
 };
 
 #endif // !CIRCULARLINKEDLIST_H
