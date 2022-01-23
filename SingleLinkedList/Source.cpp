@@ -2,13 +2,6 @@
 #include<memory>
 #include"SLinkedList.h"
 
-using namespace std;
-
-struct Person {
-   const char* name;
-   int age;
-};
-
 int main()
 {
    auto sl = std::make_unique<SLinkedList<int>>();

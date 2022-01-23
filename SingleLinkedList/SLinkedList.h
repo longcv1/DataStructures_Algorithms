@@ -79,7 +79,7 @@ inline void SLinkedList<T>::insert(T value, unsigned int pos)
       head = newNode;
    }
    else {
-      //Inserting at any valid position
+      //Inserting at any valid position 
       auto p = head;
       for (unsigned int i = 0; i < pos - 1; i++) {
          p = p->next;
