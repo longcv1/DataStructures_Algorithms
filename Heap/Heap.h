@@ -7,14 +7,14 @@ template<typename T, int size>
 class Heap
 {
 private:
-   T A[20];
-   int rear{ -1 };
+   T A[size];
+   int rear;
 public:
-   Heap(){ this->A[size] = {}; };
+   Heap() :rear{ -1 } { /*this->A[size] = {};*/};
    void insert(T arr[], int n);
    void print();
    int Delete(int n);
-   void heap_sort();
+   void Heapify(int n);
 };
 
 #endif // !HEAP_H
