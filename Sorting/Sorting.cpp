@@ -3,13 +3,14 @@
 
 int main()
 {
-   Sorting<int, 10> sort;
-   int Array[10] = { 8,9,0,5,1,2,6,3,4,7 };
+   Sorting<int, 20> sort;
+   int Array[20] = { 20,14,8,9,0,5,1,2,6,3,50,30,4,7,15,12,25,11,13,10 };
    sort.init(Array);
+   //sort.display();
+
+   sort.buble_sort("Bubble Sort");
    sort.display();
 
-   sort.insertion_sort("INSERTION SORT");
-   sort.display();
    return 0;
 }
 
