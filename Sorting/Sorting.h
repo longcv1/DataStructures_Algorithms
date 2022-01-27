@@ -24,7 +24,10 @@ public:
    void buble_sort(const char* name);
    void insertion_sort(const char* name);
    void selection_sort(const char* name);
-   void quick_sort(const char* name);
+   int partition_quick_sort_middle(int l, int h);
+   void quick_sort_middle(int l, int h);
+   int partition_quick_sort_left(int l, int r);
+   void quick_sort_left(int l, int r);
    void merge_sort(const char* name);
 };
 
@@ -89,8 +92,68 @@ inline void Sorting<T, size>::selection_sort(const char* name)
    }
 }
 
+template<typename T, int size>
+inline int Sorting<T, size>::partition_quick_sort_middle(int l, int r)
+{
+   int mid = (l + r) / 2;
+   Swap(&A[l], &A[mid]);
+   int pivot = A[l];
+   int i = l + 1; int j = r;
+   while (i < j) {
+      while (A[i] <= pivot) {
+         i++;
+      }
+      while (A[j] > pivot) {
+         j--;
+      }
+      if (i < j) {
+         Swap(&A[i], &A[j]);
+         i++;
+         j--;
+      }
+   }
+   Swap(&A[l], &A[j]);
+   return j;
+}
+
 
 template<typename T, int size>
-inline void Sorting<T, size>::quick_sort(const char* name)
+inline void Sorting<T, size>::quick_sort_middle(int l, int r)
 {
+   if (l < r) {
+      int j = partition_quick_sort_middle(l, r);
+      quick_sort_middle(l, j - 1);
+      quick_sort_middle(j + 1, r);
+   }
+}
+
+template<typename T, int size>
+inline int Sorting<T, size>::partition_quick_sort_left(int l, int r)
+{
+   int pivot = A[l];
+   int i = l + 1; int j = r;
+   while (i < j) {
+      while (A[i] <= pivot) {
+         i++;
+      }
+      while (A[j] > pivot) {
+         j--;
+      }
+      if (i < j) {
+         Swap(&A[i], &A[j]);
+      }
+   }
+
+   Swap(&A[l], &A[j]);
+   return j;
+}
+
+template<typename T, int size>
+inline void Sorting<T, size>::quick_sort_left(int l, int r)
+{
+   if (l < r) {
+      int j = partition_quick_sort_left(l, r);
+      quick_sort_left(l, j - 1);
+      quick_sort_left(j + 1, r);
+   }
 }

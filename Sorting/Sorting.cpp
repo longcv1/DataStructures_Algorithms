@@ -3,12 +3,17 @@
 
 int main()
 {
-   Sorting<int, 20> sort;
-   int Array[20] = { 20,14,8,9,0,5,1,2,6,3,50,30,4,7,15,12,25,11,13,10 };
-   sort.init(Array);
-   //sort.display();
+   using namespace std;
+   int Array[] = { 10, 30, 80, 90, 40, 50, 70, 20 };
+   const int size = sizeof(Array) / sizeof(Array[0]);
 
-   sort.buble_sort("Bubble Sort");
+   Sorting<int, size> sort;
+   sort.init(Array);
+   cout << "List before sorting:\n";
+   sort.display();
+
+   cout << "\n\nQuick Sort:\n";
+   sort.quick_sort_left(0, size - 1);
    sort.display();
 
    return 0;
