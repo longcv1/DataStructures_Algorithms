@@ -28,7 +28,9 @@ public:
    void quick_sort_middle(int l, int h);
    int partition_quick_sort_left(int l, int r);
    void quick_sort_left(int l, int r);
-   void merge_sort(const char* name);
+   void merge_sort_recursive(
+      int l, int h);
+   void merge(int l, int mid, int h);
 };
 
 #endif // !SORTING_H
@@ -155,5 +157,43 @@ inline void Sorting<T, size>::quick_sort_left(int l, int r)
       int j = partition_quick_sort_left(l, r);
       quick_sort_left(l, j - 1);
       quick_sort_left(j + 1, r);
+   }
+}
+
+template<typename T, int size>
+inline void Sorting<T, size>::merge_sort_recursive(int l, int h)
+{
+   if (l < h) {
+      int mid = l + (h - l) / 2;
+      merge_sort_recursive(l, mid);
+      merge_sort_recursive(mid + 1, h);
+      merge(l, mid, h);
+   }
+}
+
+template<typename T, int size>
+inline void Sorting<T, size>::merge(int l, int mid, int h)
+{
+   T B[size];
+   int i = l; int j = mid + 1; int k = l;
+   while (i <= mid && j <= h) {
+      if (A[i] < A[j]) {
+         B[k++] = A[i++];
+      }
+      else {
+         B[k++] = A[j++];
+      }
+   }
+   while (i <= mid) {
+      //Copy remaining elements of first array if have
+      B[k++] = A[i++];
+   }
+   while (j <= h) {
+      //Copy remaining elements of second array if have
+      B[k++] = A[j++];
+   }
+
+   for (int n = l; n <= h; n++) {
+      A[n] = B[n];
    }
 }

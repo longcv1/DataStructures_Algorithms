@@ -12,8 +12,8 @@ int main()
    cout << "List before sorting:\n";
    sort.display();
 
-   cout << "\n\nQuick Sort:\n";
-   sort.quick_sort_left(0, size - 1);
+   cout << "\n\nMerge Sort:\n";
+   sort.merge_sort_recursive(0, size - 1);
    sort.display();
 
    return 0;
