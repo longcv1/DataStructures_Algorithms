@@ -1,13 +1,12 @@
-#include "DLinkedList.h"
+#include "CircularDoubleLinkedList.h"
 #include<iostream>
-#include<memory>
 
 /*
 ********************************************************************************
 ** Checks if list is empty or not
 ********************************************************************************
 */
-bool DLinkedList::isListEmpty() const
+bool CircularDoubleLinkedList::isListEmpty() const
 {
    if (head == nullptr) {
       return true;
@@ -20,9 +19,9 @@ bool DLinkedList::isListEmpty() const
 ** Checks if list is full or not
 ********************************************************************************
 */
-bool DLinkedList::isListFull() const
+bool CircularDoubleLinkedList::isListFull() const
 {
-   auto p = std::make_shared<Node>();
+   Node* p = new Node();
    if (p == nullptr) {
       return true;
    }
@@ -34,73 +33,94 @@ bool DLinkedList::isListFull() const
 ** Size of the list
 ********************************************************************************
 */
-int DLinkedList::sizeOfList() const
+int CircularDoubleLinkedList::sizeOfList() const
 {
+   if (isListEmpty()) return 0;
    auto p = head;
-   int size{};
-   while (p) {
+   int size{0};
+   do{
       p = p->next;
       size++;
-   }
+   }while (p != head);
    return size;
 }
 
 /*
 ********************************************************************************
-** Initialization doubled linked list by an array
+** Initialization circular doubled linked list by an array
 ********************************************************************************
 */
-void DLinkedList::init(int* pArr, int size)
+void CircularDoubleLinkedList::init(int* pArr, int size)
 {
    //Init first node of array
-   head = std::make_shared<Node>();
+   head = new Node();
    head->data = pArr[0];
 
    //Transform array to double linked list
    auto tail = head;
    for (int i = 1; i < size; i++)
    {
-      auto p = std::make_shared<Node>(pArr[i]);
+      Node* p = new Node(pArr[i]);
       tail->next = p;
       p->prev = tail;
       tail = p;
+      tail->next = head;
+      head->prev = tail;
    }
 }
 
 /*
 ********************************************************************************
-** Display a doubled linked list
+** Display circular doubled linked list
 ********************************************************************************
 */
-void DLinkedList::display()
+void CircularDoubleLinkedList::display()
 {
    auto p = head;
-   while (p) {
+   do{
       std::cout << p->data << "<->";
       p = p->next;
-   }
+   } while (p != head);
 }
 
 /*
 ********************************************************************************
-** Inserting a node in doubled linked list
+** Inserting a node in circular doubled linked list
 ********************************************************************************
 */
-void DLinkedList::insert(int value, int pos)
+void CircularDoubleLinkedList::insert(int value, int pos)
 {
    if (isListFull()) {
       std::cout << "List FULL...\n";
       return;
    }
+
+   if (isListEmpty()) {
+      Node* p = new Node(value);
+      p->next = p->prev = p;
+      head = p;
+      return;
+   }
+
    if (pos < 0 || pos > sizeOfList()) {
       std::cout << "Inserting - invalid postion...\n";
       return;
    }
+
+
+   //Inserting at first position
    if (pos - 1 == 0) {
-      //Inserting at first position
-      auto newNode = std::make_shared<Node>(value);
+      Node* newNode = new Node(value);
+      //Pointer points to last node
+      Node* last = head->prev;
+
+      //Setting previous and next pointers of new node.
       newNode->next = head;
+      newNode->prev = last;
+
+      //Update next and previous pointers of head.
       head->prev = newNode;
+      last->next = newNode;
       head = newNode;
    }
    else {
@@ -109,22 +129,21 @@ void DLinkedList::insert(int value, int pos)
       for (int i = 0; i < pos - 1; i++) {
          p = p->next;
       }
-      auto newNode = std::make_shared<Node>(value);
+      Node* newNode = new Node(value);
       newNode->next = p->next;
       newNode->prev = p;
-      if (p->next) {
-         p->next->prev = newNode;
-      }
+      p->next->prev = newNode;
       p->next = newNode;
    }
 }
 
+
 /*
 ********************************************************************************
-** Removing a node in doubled linked list
+** Deleteing a node in circular doubled linked list
 ********************************************************************************
 */
-int DLinkedList::remove(int pos)
+int CircularDoubleLinkedList::remove(int pos)
 {
    int value = INT_MIN;
    if (isListEmpty()) {
@@ -139,13 +158,14 @@ int DLinkedList::remove(int pos)
 
    if (pos - 1 == 0) {
       //Removing at first position
+      Node* last = head->prev;
       auto p = head;
       head = head->next;
+      last->next = head;
+      head->prev = last;
       value = p->data;
-      p.reset();
-      if (head) {
-         head->prev = nullptr;
-      }
+      delete p;
+      p = nullptr;
    }
    else {
       //Removing at any valid position
@@ -154,31 +174,9 @@ int DLinkedList::remove(int pos)
          p = p->next;
       }
       p->prev->next = p->next;
-      if (p->next) {
-         p->next->prev = p->prev;
-      }
+      p->next->prev = p->prev;
       value = p->data;
-      p.reset();
+      delete p;
    }
    return value;
-}
-
-/*
-********************************************************************************
-** Revert of the list
-********************************************************************************
-*/
-void DLinkedList::revertList()
-{
-   auto p = head;
-   auto temp = std::make_shared<Node>();
-   while (p) {
-      temp = p->next;
-      p->next = p->prev;
-      p->prev = temp;
-      p = p->prev;
-      if (p!= nullptr && p->next == nullptr) {
-         head = p;
-      }
-   }
 }
