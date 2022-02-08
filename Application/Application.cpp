@@ -20,6 +20,8 @@
 // 6. Sorting
 // 7. Hashing Table
 // 8. Graphs
+//    - BFS (Breadth First Search)
+//    - DFS (Depth First Search)
 //
 
 #include<iostream>
@@ -48,7 +50,8 @@ int main()
     std::cout << "\t- Red-Black Tree\n";
 
     std::cout << "5. HEAP:\n";
-    std::cout << "\t- Priority heap\n";
+    std::cout << "\t- Heap Sort\n";
+    std::cout << "\t- Priority Queue\n";
 
     std::cout << "6. SORTING:\n";
     std::cout << "\t- Buble Sort\n";
@@ -59,6 +62,8 @@ int main()
 
     std::cout << "7. HASH TABLE:\n";
     std::cout << "8. GRAPHS:\n";
+    std::cout << "\t- BFS (Breadth First Search)\n";
+    std::cout << "\t- DFS (Depth First Search)\n";
     return 0;
 }
 
