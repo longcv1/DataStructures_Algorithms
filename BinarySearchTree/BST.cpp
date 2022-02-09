@@ -29,8 +29,9 @@ Node* BST::R_Search(Node* p, int key)
    }
 }
 
-Node* BST::Search(Node* p, int key)
+Node* BST::Search(int key)
 {
+   Node* p = root;
    while (p != nullptr) {
       if (p->data == key) {
          return p;
@@ -45,7 +46,7 @@ Node* BST::Search(Node* p, int key)
    return nullptr;
 }
 
-void BST::Insert(/*BinarySearchTree::Node* p,*/ int key)
+void BST::Insert(int key)
 {
    Node* p = root;
    // Create a temp pointer
@@ -71,11 +72,87 @@ void BST::Insert(/*BinarySearchTree::Node* p,*/ int key)
    }
 }
 
+int BST::Height(BinarySearchTree::Node* p)
+{
+   if (p == nullptr) {
+      return 0;
+   }
+   auto left = Height(p->left_child);
+   auto right = Height(p->right_child);
+
+   return left > right ? left++ : right++;
+}
+
+BinarySearchTree::Node* BST::InPrecessor(BinarySearchTree::Node* p)
+{
+   while (p && p->right_child != nullptr) {
+      p = p->right_child;
+   }
+   return p;
+}
+
+BinarySearchTree::Node* BST::InSuccessor(BinarySearchTree::Node* p)
+{
+   while (p && p->left_child != nullptr) {
+      p = p->left_child;
+   }
+   return p;
+}
+
+BinarySearchTree::Node* BST::Delete(BinarySearchTree::Node* p, int key)
+{
+   if (p == nullptr) return nullptr;
+   if (p->left_child == nullptr && p->right_child == nullptr) {
+      if (p == root) {
+         root = nullptr;
+      }
+      delete p;
+      return nullptr;
+   }
+   if (key < p->data) {
+      p->left_child = Delete(p->left_child, key);
+   }
+   else if(key>p->data) {
+      p->right_child = Delete(p->right_child, key);
+   }
+   else {
+      if (Height(p->left_child) > Height(p->right_child)) {
+         auto q = InPrecessor(p->left_child);
+         p->data = q->data;
+         p->left_child = Delete(p->left_child, q->data);
+      }
+      else {
+         auto q = InSuccessor(p->right_child);
+         p->data = q->data;
+         p->right_child = Delete(p->right_child, q->data);
+      }
+   }
+   return p;
+}
+
 void BST::preOrder(Node* p)
 {
    if (p) {
       std::cout << p->data << "   " << std::flush;
       preOrder(p->left_child);
       preOrder(p->right_child);
+   }
+}
+
+void BST::inOrder(BinarySearchTree::Node* p)
+{
+   if (p) {
+      preOrder(p->left_child);
+      std::cout << p->data << "   " << std::flush;
+      preOrder(p->right_child);
+   }
+}
+
+void BST::postOrder(BinarySearchTree::Node* p)
+{
+   if (p) {
+      preOrder(p->left_child);
+      preOrder(p->right_child);
+      std::cout << p->data << "   " << std::flush;
    }
 }

@@ -7,23 +7,25 @@
 
 class Tree
 {
+private:
     Node* root;
+private:
+   void preOrder(Node*);
+   void inOrder(Node*);
+   void postOrder(Node*);
+   void levelOrder(Node*);
+   void iterativePreOrder(Node*);
 
 public:
    Tree() = default;
    ~Tree() = default;
 
+   int  height(Node*);
    void createTree();
    void pre_Order() { preOrder(root); }
-   void preOrder(Node*);
    void in_Order() { inOrder(root); }
-   void inOrder(Node*);
    void post_Order() { postOrder(root); }
-   void postOrder(Node*);
-   int height(Node*);
    void level_Order() { levelOrder(root); };
-   void levelOrder(Node*);
-   void iterativePreOrder(Node*);
    void iterative_pre_order() { iterativePreOrder(root); };
 };
 

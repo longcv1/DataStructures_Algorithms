@@ -24,12 +24,13 @@ public:
    void buble_sort(const char* name);
    void insertion_sort(const char* name);
    void selection_sort(const char* name);
+   //Quick Sort
    int partition_quick_sort_middle(int l, int h);
    void quick_sort_middle(int l, int h);
    int partition_quick_sort_left(int l, int r);
    void quick_sort_left(int l, int r);
-   void merge_sort_recursive(
-      int l, int h);
+   //Merge Sort
+   void merge_sort_recursive(int l, int h);
    void merge(int l, int mid, int h);
 };
 
