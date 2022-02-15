@@ -7,3 +7,14 @@ namespace BinarySearchTree {
    };
 }
 
+namespace Avl_Tree {
+   struct Node {
+      Node* left_child;
+      int data;
+      int height;
+      Node* right_child;
+
+      Node(int value) : data{ value }, height{ 1 }, left_child{ nullptr }, right_child{ nullptr }{};
+   };
+}
+
