@@ -19,7 +19,5 @@ public:
       root = R_Insert(root, key);
    };
    void pre_order() { preOrder(root); };
-   void init(int key);
-   Avl_Tree::Node* getRoot() { return root; };
 };
 

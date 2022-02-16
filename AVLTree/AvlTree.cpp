@@ -64,10 +64,10 @@ int AvlTree::BalanceFactor(Avl_Tree::Node* p)
 Avl_Tree::Node* AvlTree::LL_Rotation(Avl_Tree::Node* p)
 {
    Avl_Tree::Node* pl = p->left_child;
-   Avl_Tree::Node* pr = pl->right_child;
+   Avl_Tree::Node* plr = pl->right_child;
 
    pl->right_child = p;
-   p->left_child = pr;
+   p->left_child = plr;
 
    // Update height
    p->height = NodeHeight(p);
@@ -82,23 +82,69 @@ Avl_Tree::Node* AvlTree::LL_Rotation(Avl_Tree::Node* p)
 
 Avl_Tree::Node* AvlTree::LR_Rotation(Avl_Tree::Node* p)
 {
-   return nullptr;
+   Avl_Tree::Node* pl = p->left_child;
+   Avl_Tree::Node* plr = pl->right_child;
+
+   pl->right_child = plr->left_child;
+   p->left_child = plr->right_child;
+
+   plr->left_child = pl;
+   plr->right_child = p;
+
+   // Update height
+   p->height = NodeHeight(p);
+   pl->height = NodeHeight(pl);
+   plr->height = NodeHeight(plr);
+
+   // Update root
+   if (root = p) {
+      root = plr;
+   }
+   return plr;
 }
 
 Avl_Tree::Node* AvlTree::RR_Rotation(Avl_Tree::Node* p)
 {
+   Avl_Tree::Node* pr = p->right_child;
+   Avl_Tree::Node* prl = pr->left_child;
+
+   pr->right_child = p;
+   p->right_child = prl;
+
+   // Update height
+   p->height = NodeHeight(p);
+   pr->height = NodeHeight(pr);
+
+   // Update root
+   if (root = p) {
+      root = pr;
+   }
+   return pr;
+
    return nullptr;
 }
 
 Avl_Tree::Node* AvlTree::RL_Rotation(Avl_Tree::Node* p)
 {
-   return nullptr;
-}
+   Avl_Tree::Node* pr = p->right_child;
+   Avl_Tree::Node* prl = pr->left_child;
 
-void AvlTree::init(int key)
-{
-   Avl_Tree::Node* t = new Avl_Tree::Node(key);
-   root = t;
+   pr->left_child = prl->right_child;
+   p->right_child = prl->left_child;
+
+   prl->right_child = pr;
+   prl->left_child = p;
+
+   // Update height
+   p->height = NodeHeight(p);
+   pr->height = NodeHeight(pl);
+   prl->height = NodeHeight(plr);
+
+   // Update root
+   if (root = p) {
+      root = prl;
+   }
+   return prl;
 }
 
 void AvlTree::preOrder(Avl_Tree::Node* p)
