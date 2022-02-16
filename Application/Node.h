@@ -2,8 +2,9 @@
 namespace BinarySearchTree {
    struct Node {
       int data;
-      Node* left_child{ nullptr };
-      Node* right_child{ nullptr };
+      Node* left_child;
+      Node* right_child;
+      Node() : data{}, left_child{nullptr}, right_child{nullptr}{}
    };
 }
 

@@ -137,8 +137,8 @@ Avl_Tree::Node* AvlTree::RL_Rotation(Avl_Tree::Node* p)
 
    // Update height
    p->height = NodeHeight(p);
-   pr->height = NodeHeight(pl);
-   prl->height = NodeHeight(plr);
+   pr->height = NodeHeight(pr);
+   prl->height = NodeHeight(prl);
 
    // Update root
    if (root = p) {

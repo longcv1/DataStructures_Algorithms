@@ -50,7 +50,14 @@ void BST::Insert(int key)
 {
    Node* p = root;
    // Create a temp pointer
-   Node* temp = nullptr;
+   Node* temp = p;
+
+   if (p == nullptr) {
+      temp = new Node();
+      temp->data = key;
+      root = temp;
+      return;
+   }
 
    while (p != nullptr) {
       temp = p;
