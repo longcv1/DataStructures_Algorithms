@@ -155,3 +155,75 @@ void AvlTree::preOrder(Avl_Tree::Node* p)
       preOrder(p->right_child);
    }
 }
+
+Avl_Tree::Node* AvlTree::R_Remove(Avl_Tree::Node* p, int key)
+{
+   if(p==nullptr) return nullptr;
+
+   if (p->left_child == nullptr && p->right_child == nullptr) {
+      if (p == root) {
+         root = nullptr;
+      }
+      delete p;
+      return nullptr;
+   }
+
+   if (key < p->data) {
+      p->left_child = R_Remove(p->left_child, key);
+   }
+   else if (key > p->data) {
+      p->right_child = R_Remove(p->right_child, key);
+   }
+   else {
+      if (NodeHeight(p->left_child) > NodeHeight(p->right_child)) {
+         auto q = getPredecessor(p->left_child);
+         p->data = q->data;
+         p->left_child = R_Remove(p->left_child, q->data);
+      }
+      else {
+         auto q = getSuccessor(p->right_child);
+         p->data = q->data;
+         p->right_child = R_Remove(p->right_child, q->data);
+      }
+   }
+
+   p->height = NodeHeight(p);
+
+   // Balance Factor and Rotation
+   if (BalanceFactor(p) == 2 && BalanceFactor(p->left_child) == 1) {  // L1 Rotation
+      return LL_Rotation(p);
+   }
+   else if (BalanceFactor(p) == 2 && BalanceFactor(p->left_child) == -1) {  // L-1 Rotation
+      return LR_Rotation(p);
+   }
+   else if (BalanceFactor(p) == -2 && BalanceFactor(p->right_child) == -1) {  // R-1 Rotation
+      return RR_Rotation(p);
+   }
+   else if (BalanceFactor(p) == -2 && BalanceFactor(p->right_child) == 1) {  // R1 Rotation
+      return RL_Rotation(p);
+   }
+   else if (BalanceFactor(p) == 2 && BalanceFactor(p->left_child) == 0) {  // L0 Rotation
+      return LL_Rotation(p);
+   }
+   else if (BalanceFactor(p) == -2 && BalanceFactor(p->right_child) == 0) {  // R0 Rotation
+      return RR_Rotation(p);
+   }
+
+   return p;
+}
+
+Avl_Tree::Node* AvlTree::getPredecessor(Avl_Tree::Node* p)
+{
+   while (p && p->right_child != nullptr) {
+      p = p->right_child;
+   }
+   return p;
+}
+
+Avl_Tree::Node* AvlTree::getSuccessor(Avl_Tree::Node* p)
+{
+   while (p && p->left_child != nullptr) {
+      p = p->left_child;
+   }
+   return p;
+}
