@@ -47,19 +47,104 @@ int AVL::BalanceFactor(Node* node)
 
 void AVL::RightRotation(Node* node)
 {
-   Node* pl = node->left_child;
-   Node* plr = pl->right_child;
+   Node* tempLeftChild = node->left_child;
+   Node* grandChild = tempLeftChild->right_child;
 
-   pl->right_child = node;
-   node->left_child = plr;
+   //Make rotation - new root node will be tempLeftChild
+   tempLeftChild->right_child = node;
+   node->left_child = grandChild;
 
-   if (plr != nullptr) {
-      plr->parent_node = node;
+   //Update parent node
+   if (grandChild != nullptr) {
+      grandChild->parent_node = node;
    }
 
+   //Handle parents for the node
    Node* tempParent = node->parent_node;
-   node->parent_node = pl;
-   pl->parent_node = tempParent;
+   node->parent_node = tempLeftChild;
+   tempLeftChild->parent_node = tempParent;
+
+   //Hanlde the parent
+   if (tempLeftChild->parent_node != nullptr && tempLeftChild->parent_node->left_child == node) {
+      tempLeftChild->parent_node->left_child = tempLeftChild;
+   }
+   if (tempLeftChild->parent_node != nullptr && tempLeftChild->parent_node->right_child == node) {
+      tempLeftChild->parent_node->right_child = tempLeftChild;
+   }
+
+   if (node == root) {
+      root = tempLeftChild;
+   }
+
+   //Update height after rotation
+   updateHeight(node);
+   updateHeight(tempLeftChild);
+}
+
+void AVL::LeftRotation(Node* node)
+{
+   Node* tempRightChild = node->right_child;
+   Node* grandChild = tempRightChild->left_child;
+
+   //Make rotation - new root node will be tempRightChild
+   tempRightChild->left_child = node;
+   node->right_child = grandChild;
+
+   //Update parent node
+   if (grandChild != nullptr) {
+      grandChild->parent_node = node;
+   }
+
+   //Handle parents for the node
+   Node* tempParent = node->parent_node;
+   node->parent_node = tempRightChild;
+   tempRightChild->parent_node = tempParent;
+
+   //Hanlde the parent
+   if (tempRightChild->parent_node != nullptr && tempRightChild->parent_node->left_child == node) {
+      tempRightChild->parent_node->left_child = tempRightChild;
+   }
+   if (tempRightChild->parent_node != nullptr && tempRightChild->parent_node->right_child == node) {
+      tempRightChild->parent_node->right_child = tempRightChild;
+   }
+
+   if (node == root) {
+      root = tempRightChild;
+   }
+
+   //Update height after rotation
+   updateHeight(node);
+   updateHeight(tempRightChild);
+}
+
+void AVL::FixViolation(Node* node)
+{
+   while (node != nullptr) {
+      updateHeight(node);
+      FixViolationHelper(node);
+      node = node->parent_node;
+   }
+}
+
+void AVL::FixViolationHelper(Node* node)
+{
+   int balance = BalanceFactor(node);
+   if (balance > 1) {
+      //left-right situation => left rotation
+      if (BalanceFactor(node->left_child) < 0) {
+         LeftRotation(node->left_child);
+      }
+      //left-left situation => right rotation
+      RightRotation(node);
+   }
+   else if(balance < -1) {
+      //right-left situation => right rotation
+      if (BalanceFactor(node->right_child) < 0) {
+         RightRotation(node->right_child);
+      }
+      //right-right situation => left rotation
+      LeftRotation(node);
+   }
 }
 
 void AVL::R_Insert(int key, Node* node)
@@ -91,8 +176,8 @@ void AVL::R_Insert(int key, Node* node)
    //Update again height of node
    updateHeight(node);
 
-   // Check balance factor and then rotation
-   
+   //Fix violation
+   FixViolation(node);
 }
 
 void AVL::Insert(int key)
@@ -136,6 +221,7 @@ void AVL::R_Remove(int key, Node* node)
 
          //Update again height of node
          updateHeight(parent);
+         FixViolation(parent);
       }
       //Remove if it has a single right child
       else if (node->left_child == nullptr && node->right_child != nullptr) {
@@ -158,6 +244,7 @@ void AVL::R_Remove(int key, Node* node)
 
          //Update again height of node
          updateHeight(parent);
+         FixViolation(parent);
       }
       //Remove if it has a single left child
       else if (node->left_child != nullptr && node->right_child == nullptr) {

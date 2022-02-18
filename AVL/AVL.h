@@ -21,6 +21,9 @@ protected:
    void updateHeight(Node* node);
    int BalanceFactor(Node* node);
    void RightRotation(Node* node);
+   void LeftRotation(Node* node);
+   void FixViolation(Node* node);
+   void FixViolationHelper(Node* node);
 
 public:
    virtual void Insert(int key)override;
