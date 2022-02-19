@@ -1,5 +1,6 @@
 #include "AvlTree.h"
 #include<iostream>
+#include<algorithm>
 
 Avl_Tree::Node* AvlTree::R_Insert(Avl_Tree::Node* p, int key)
 {
@@ -37,28 +38,30 @@ Avl_Tree::Node* AvlTree::R_Insert(Avl_Tree::Node* p, int key)
    return p;
 }
 
+int AvlTree::Height(Avl_Tree::Node* p)
+{
+   if (p == nullptr) {
+      return 0;
+   }
+   return p->height;
+}
+
 int AvlTree::NodeHeight(Avl_Tree::Node* p)
 {
-   // Check height of left sub tree and height of right sub tree
-   int hl{}, hr{};
-   hl = (p && p->left_child) ? p->left_child->height : 0;
-   hr = (p && p->right_child) ? p->right_child->height : 0;
-   if (hl > hr) {
-      hl++;
-      return hl;
+   int height{};
+   if (p) {
+      height = std::max(Height(p->left_child), Height(p->right_child)) + 1;
    }
-   else {
-      hr++;
-      return hr;
-   }
+   return height;
 }
 
 int AvlTree::BalanceFactor(Avl_Tree::Node* p)
 {
-   int height_left{}, height_right{};
-   height_left = (p && p->left_child) ? p->left_child->height : 0;
-   height_right = (p && p->right_child) ? p->right_child->height : 0;
-   return height_left - height_right;
+   if (p == nullptr) {
+      return 0;
+   }
+   int balance = Height(p->left_child) - Height(p->right_child);
+   return balance;
 }
 
 Avl_Tree::Node* AvlTree::LL_Rotation(Avl_Tree::Node* p)
@@ -120,8 +123,6 @@ Avl_Tree::Node* AvlTree::RR_Rotation(Avl_Tree::Node* p)
       root = pr;
    }
    return pr;
-
-   return nullptr;
 }
 
 Avl_Tree::Node* AvlTree::RL_Rotation(Avl_Tree::Node* p)
@@ -150,8 +151,8 @@ Avl_Tree::Node* AvlTree::RL_Rotation(Avl_Tree::Node* p)
 void AvlTree::preOrder(Avl_Tree::Node* p)
 {
    if (p) {
-      std::cout << p->data << "   " << std::flush;
       preOrder(p->left_child);
+      std::cout << p->data << "   " << std::flush;
       preOrder(p->right_child);
    }
 }

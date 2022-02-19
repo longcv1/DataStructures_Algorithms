@@ -65,12 +65,12 @@ void AVL::RightRotation(Node* node)
    tempLeftChild->parent_node = tempParent;
 
    //Hanlde the parent
-   if (tempLeftChild->parent_node != nullptr && tempLeftChild->parent_node->left_child == node) {
+   /*if (tempLeftChild->parent_node != nullptr && tempLeftChild->parent_node->left_child == node) {
       tempLeftChild->parent_node->left_child = tempLeftChild;
    }
    if (tempLeftChild->parent_node != nullptr && tempLeftChild->parent_node->right_child == node) {
       tempLeftChild->parent_node->right_child = tempLeftChild;
-   }
+   }*/
 
    if (node == root) {
       root = tempLeftChild;
@@ -101,12 +101,12 @@ void AVL::LeftRotation(Node* node)
    tempRightChild->parent_node = tempParent;
 
    //Hanlde the parent
-   if (tempRightChild->parent_node != nullptr && tempRightChild->parent_node->left_child == node) {
+   /*if (tempRightChild->parent_node != nullptr && tempRightChild->parent_node->left_child == node) {
       tempRightChild->parent_node->left_child = tempRightChild;
    }
    if (tempRightChild->parent_node != nullptr && tempRightChild->parent_node->right_child == node) {
       tempRightChild->parent_node->right_child = tempRightChild;
-   }
+   }*/
 
    if (node == root) {
       root = tempRightChild;
@@ -119,6 +119,7 @@ void AVL::LeftRotation(Node* node)
 
 void AVL::FixViolation(Node* node)
 {
+   //Check up to the root node from the node has inserted or removed
    while (node != nullptr) {
       updateHeight(node);
       FixViolationHelper(node);

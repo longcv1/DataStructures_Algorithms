@@ -8,7 +8,12 @@ private:
 
 protected:
    void R_InOrder(Node* p);
-   void R_Insert(Node* p, int key);
+   void R_Insert(int key, Node* node);
+   void RightRotation(Node* node);
+   void LeftRotation(Node* node);
+   bool isRed(Node* node);
+   void FixViolation(Node* node);
+
 public:
    RBTree() :root{ nullptr } {}
    void Insert(int key);

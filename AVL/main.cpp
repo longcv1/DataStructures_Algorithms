@@ -15,10 +15,12 @@ int main()
    std::cout << "\nAfter inserting nodes:\n";
    avl.Traversal();
 
-   avl.Remove(23);
-   avl.Remove(20);
+   avl.Remove(12);
+   std::cout << "\nAfter removing nodes: 12\n";
+   avl.Traversal();
 
-   std::cout << "\nAfter removing nodes:\n";
+   avl.Remove(20);
+   std::cout << "\nAfter removing nodes: 20\n";
    avl.Traversal();
    return 0;
 }

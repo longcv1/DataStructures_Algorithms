@@ -3,21 +3,20 @@
 constexpr auto RED = 0;
 constexpr auto BLACK = 1;
 
-class Node {
-public:
+struct Node {
    int data;
    bool color;
    Node* left_child;
    Node* right_child;
-   Node* parent;
+   Node* parent_node;
    Node(int value) {
       data = value;
-      left_child = right_child = parent = nullptr;
+      left_child = right_child = parent_node = nullptr;
       color = RED;
    }
-   Node(Node* parentNode, int data) {
+   Node(int data, Node* parentNode) {
       this->data = data;
-      this->parent = parentNode;
+      this->parent_node = parentNode;
       this->left_child = this->right_child = nullptr;
       this->color = RED;
    }
@@ -30,19 +29,19 @@ public:
       }
    }
 
-   void setLeftChild(Node* leftChild) {
-      this->left_child = leftChild;
-   }
-   void setRightChild(Node* rightChild) {
-      this->right_child = rightChild;
-   }
-   Node* getParent() {
-      return parent;
-   }
-   bool getColor() {
-      return color;
-   }
-   void setColor(bool color) {
-      this->color = color;
-   }
+   //void setLeftChild(Node* leftChild) {
+   //   this->left_child = leftChild;
+   //}
+   //void setRightChild(Node* rightChild) {
+   //   this->right_child = rightChild;
+   //}
+   //Node* getParent() {
+   //   return parent;
+   //}
+   //bool getColor() {
+   //   return color;
+   //}
+   //void setColor(bool color) {
+   //   this->color = color;
+   //}
 };

@@ -16,6 +16,7 @@ private:
    Avl_Tree::Node* R_Remove(Avl_Tree::Node* p, int key);
    Avl_Tree::Node* getPredecessor(Avl_Tree::Node* p);
    Avl_Tree::Node* getSuccessor(Avl_Tree::Node* p);
+   int Height(Avl_Tree::Node* p);
 public:
    AvlTree() :root{ nullptr } {}
    void Insert(int key) {
