@@ -45,6 +45,24 @@ Node* BST::Search(int key)
    }
    return nullptr;
 }
+/// Recursive Insert
+Node* R_Insert(Node* p, int key)
+{
+   Node* t;
+   if (p == nullptr) {
+      t = new Node();
+      t->data = key;
+      t->left_child = t->right_child = nullptr;
+      return t;
+   }
+   if (key < p->data) {
+      p->left_child = R_Insert(p->left_child, key);
+   }
+   else if (key > p->data) {
+      p->right_child = R_Insert(p->right_child, key);
+   }
+   return p;
+}
 
 void BST::Insert(int key)
 {
