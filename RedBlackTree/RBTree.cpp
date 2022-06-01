@@ -1,6 +1,30 @@
 #include "RBTree.h"
 #include<iostream>
 
+
+/*
+   INSERTION:
+   1. Neu tree la rong => tao node moi la root node voi color = BLACK
+   2. Neu tree khac rong => tao node moi la leaf node voi color = RED
+   3. Check conflict:
+      3.1: Neu node cha cua new node la BLACK => exit
+      3.2: Neu node cha cua new node la RED => check node uncle
+           +> uncle la BLACK/null => Rotation & Recolor (parent node & grandparent node)
+           +> uncle la RED => Recolor (parent, uncle and grandparent nodes) & recursive check to root node.
+
+   DELETION:
+   1. Neu node can xoa la RED va ko co node con => delete it (nothing more to do)
+   2. Neu node can xoa la RED va co node con la BLACK => delete it and update lai parent node tro vao node con bi xoa
+   3. Neu node can xoa la BLACK => cehck node sibling
+     3.1: Neu node la RED => delete node can xoa & rotation
+     3.2: Neu node la BLACK => check children of sibling
+          +> Neu la BLACK => recolor (sibling = RED and parent = BLACK) & recursive check to root node
+          +> Neu la RED => delete node can xoa & rotation
+
+  Exp: 10,20,30,50,40,60,70,80,4,8
+*/
+
+
 void RBTree::R_InOrder(Node* p)
 {
    if (p) {
@@ -176,11 +200,11 @@ void RBTree::FixViolation(Node* node)
             node = grand;
          }
          else {
-         //   (G-b)                           (G-b)                            (P-r)                        (P-b)
+         //   (G-b)                           (G-b)                            (X-r)                        (X-b)
          //  /     \       Rigt Rotate       /     \          Left Rotate     /     \         Recolor      /     \
-         //(U-b)   (P-r)     ==>          (U-b)    (P-r)         ==>       (G-b)    (X-r)      ==>      (G-r)    (X-r)
+         //(U-b)   (P-r)     ==>          (U-b)    (X-r)         ==>       (G-b)    (P-r)      ==>      (G-r)    (P-r)
          //         /                                 \                     /                             /
-         //      (X-r)                                (X-r)               (U-b)                         (U-b)
+         //      (X-r)                                (P-r)               (U-b)                         (U-b)
             if (node == parent->left_child) {
                RightRotation(parent);
                // Update the reference we keep going up to root node

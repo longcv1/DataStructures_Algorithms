@@ -110,6 +110,7 @@ int BST::Height(BinarySearchTree::Node* p)
 
 BinarySearchTree::Node* BST::InPrecessor(BinarySearchTree::Node* p)
 {
+   // tim node ben phai cung cua cay con ben trai
    while (p && p->right_child != nullptr) {
       p = p->right_child;
    }
@@ -124,9 +125,21 @@ BinarySearchTree::Node* BST::InSuccessor(BinarySearchTree::Node* p)
    return p;
 }
 
+/*
+                    20
+                  /    \
+                 10     30
+               /   \   /  \
+              8    12      38
+            /  \  /  \    /  \
+           5   9 11   n   32   40
+*/
+
 BinarySearchTree::Node* BST::Delete(BinarySearchTree::Node* p, int key)
 {
-   if (p == nullptr) return nullptr;
+   if (p == nullptr) {
+      return nullptr;
+   }
    if (p->left_child == nullptr && p->right_child == nullptr) {
       if (p == root) {
          root = nullptr;
@@ -141,7 +154,7 @@ BinarySearchTree::Node* BST::Delete(BinarySearchTree::Node* p, int key)
       p->right_child = Delete(p->right_child, key);
    }
    else {
-      if (Height(p->left_child) > Height(p->right_child)) {
+      if (Height(p->left_child) >= Height(p->right_child)) {
          auto q = InPrecessor(p->left_child);
          p->data = q->data;
          p->left_child = Delete(p->left_child, q->data);
